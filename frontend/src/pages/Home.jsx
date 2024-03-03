@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
-import { Link } from "react-router-dom";
 import { FaSearch, FaShoppingCart, FaHeart } from "react-icons/fa";
 import { Flex, Box, Heading, Input, Button, Image } from "@chakra-ui/react";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 const Sneakers = [
   {
@@ -73,36 +72,8 @@ const Sneakers = [
 
 const HomePage = () => {
   return (
-    <div>
-      <Flex
-        p={4}
-        bg="blue.500"
-        color="white"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Heading as="h1" size="lg">
-          Sneakers Store
-        </Heading>
-        <Flex>
-          <Button variant="ghost" mr={4}>
-            Home
-          </Button>
-          <Button variant="ghost" mr={4}>
-            Shop
-          </Button>
-          <Button variant="ghost" mr={4}>
-            About
-          </Button>
-          <Link to="/signup">
-            <Button variant="ghost" mr={4}>
-              SignUp
-            </Button>
-          </Link>
-          <Button variant="ghost">Contact</Button>
-        </Flex>
-      </Flex>
-
+    <div className="bg-gradient-to-b from-gray-600 to-gray-900">
+      <Navbar />
       <Box p={8}>
         <Heading as="h2" size="xl" mb={4} color="white">
           Welcome to Sneakers Store
@@ -120,8 +91,6 @@ const HomePage = () => {
           </Button>
         </Flex>
       </Box>
-
-      {/* Featured Sneakers */}
       <Flex flexWrap="wrap" justifyContent="center">
         {Sneakers.map((sneaker) => (
           <Box
@@ -133,7 +102,12 @@ const HomePage = () => {
             m={4}
             bg="white"
           >
-            <Image src={sneaker.image} alt={sneaker.name} />
+            <Image
+              src={sneaker.image}
+              alt={sneaker.name}
+              width={600}
+              height={250}
+            />
             <Box p={4}>
               <Heading as="h3" size="md" mb={2}>
                 {sneaker.name}
@@ -154,6 +128,7 @@ const HomePage = () => {
           </Box>
         ))}
       </Flex>
+      <Footer />
     </div>
   );
 };

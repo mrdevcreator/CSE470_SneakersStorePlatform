@@ -2,16 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Flex, Box, Heading, Input, Button } from "@chakra-ui/react";
 
-const SignUp = () => {
-  const [name, setName] = useState("");
+const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const sendData = (e) => {
     e.preventDefault();
-    alert(`Name: ${name}, Email: ${email}, Password: ${password}`);
-    setName("");
+    alert(`Email: ${email}, Password: ${password}`);
     setEmail("");
     setPassword("");
     navigate("/");
@@ -29,24 +27,15 @@ const SignUp = () => {
           rounded={"lg"}
         >
           <Heading as="h1" size="lg">
-            SignUp
+            SignIn
           </Heading>
-          <Link to="/signin">
-            <Button variant="ghost">Sign In</Button>
+          <Link to="/signup">
+            <Button variant="ghost">Sign Up</Button>
           </Link>
         </Flex>
 
         <Box p={8}>
           <form onSubmit={sendData}>
-            <div className="mb-4">
-              <label className="text-white mb-2 block">Username</label>
-              <Input
-                type="text"
-                placeholder="Jsmith"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
             <div className="mb-4">
               <label className="text-white mb-2 block">Email</label>
               <Input
@@ -75,9 +64,9 @@ const SignUp = () => {
             </Button>
           </form>
           <p className="mt-8 text-center text-white">
-            Have Discord or Already have an account?{" "}
-            <Link to="/signin" className="underline decoration-1.5 text-2xl">
-              Sign In
+            Don&apos;t have an account yet?{" "}
+            <Link to="/signup" className="underline decoration-1.5 text-2xl">
+              Sign Up
             </Link>
           </p>
         </Box>
@@ -86,4 +75,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
