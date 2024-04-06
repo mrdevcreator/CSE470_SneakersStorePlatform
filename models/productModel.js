@@ -34,6 +34,14 @@ const productSchema = new mongoose.Schema(
     shipping: {
       type: Boolean,
     },
+    colors: {
+      type: [String],
+      required: false,
+    },
+    sizes: {
+      type: [{ size: String, quantity: Number }],
+      required: false,
+    },
   },
   { timestamps: true }
 );

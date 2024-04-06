@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Select } from "antd";
+import { Select, InputNumber } from "antd";
 import "./CreateProduct.scss";
 
 const { Option } = Select;
@@ -17,6 +17,8 @@ const CreateProduct = () => {
   const [quantity, setQuantity] = useState("");
   const [shipping, setShipping] = useState("");
   const [photo, setPhoto] = useState("");
+  const [colors,setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
   const navigate = useNavigate();
 
   const handleCreate = async (e) => {
@@ -31,16 +33,38 @@ const CreateProduct = () => {
       productData.append("photo", photo);
       productData.append("category", category);
       productData.append("shipping", shipping);
-      const { data } = axios.post(
+      productData.append("colors", colors);
+      productData.append("sizes", JSON.stringify(sizes));
+      const { data } =await axios.post(
         "/api/v1/product/create-product",
         productData
       );
       if (data?.success) {
-      } else {
         navigate("/dashboard/admin/show-products");
+      } else {
+        alert("Failed to create product");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const handleAddSize = () => {
+    setSizes([...sizes, { size: "", quantity: 0 }]);
+  };
+
+  const handleSizeChange = (index, value) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index] = { ...updatedSizes[index], size: value };
+    setSizes(updatedSizes);
+  };
+
+  const handleQuantityChange = (index, value) => {
+    const updatedSizes = [...sizes];
+    updatedSizes[index] = { ...updatedSizes[index], quantity: Number(value) };
+    setSizes(updatedSizes);
+  };
+
   return (
     <Layout>
       <div className="create-product">
@@ -109,6 +133,27 @@ const CreateProduct = () => {
               </div>
 
               <div className="right-2">
+                {sizes.map((size, index) => (
+                  <div key={index}>
+                    <input
+                      type="text"
+                      placeholder="Size"
+                      value={size.size}
+                      onChange={(e) => handleSizeChange(index, e.target.value)}
+                      className="size-input"
+                    />
+                    <InputNumber
+                      min={0}
+                      placeholder="Quantity"
+                      value={size.quantity}
+                      onChange={(value) => handleQuantityChange(index, value)}
+                      className="quantity-input"
+                    />
+                  </div>
+                ))}
+                <button className="btn btn-primary" onClick={handleAddSize}>
+                  Add Size
+                </button>
                 <input
                   type="number"
                   value={price}
@@ -116,7 +161,7 @@ const CreateProduct = () => {
                     setPrice(e.target.value);
                   }}
                   placeholder="Write old price"
-                  className="form-control"
+                  className="size-input"
                 />
 
                 <input
@@ -126,7 +171,7 @@ const CreateProduct = () => {
                     setNewPrice(e.target.value);
                   }}
                   placeholder="Write new price"
-                  className="form-control"
+                  className="size-input"
                 />
 
                 <input
@@ -136,7 +181,7 @@ const CreateProduct = () => {
                     setQuantity(e.target.value);
                   }}
                   placeholder="Write quantity"
-                  className="form-control"
+                  className="size-input"
                 />
 
                 <Select
@@ -150,6 +195,23 @@ const CreateProduct = () => {
                 >
                   <Option value="0">No</Option>
                   <Option value="1">Yes</Option>
+                </Select>
+
+                <Select
+                  placeholder="Select Colours"
+                  mode="multiple"
+                  size="large"
+                  showSearch
+                  className="select"
+                  onChange={(value) => {
+                    setColors(value);
+                  }}
+                >
+                  <Option value="red">Red</Option>
+                  <Option value="brown">Brown</Option>
+                  <Option value="black">Black</Option>
+                  <Option value="white">White</Option>
+                  <Option value="blue">Blue</Option>
                 </Select>
 
                 <button className="btn btn-primary" onClick={handleCreate}>

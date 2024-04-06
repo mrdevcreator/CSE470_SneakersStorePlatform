@@ -6,6 +6,7 @@ import { useCart } from "../context/cart";
 
 import star from "../components/assets/star_icon.png";
 import star_fade from "../components/assets/star_dull_icon.png";
+import SneakerSizeCalculator from "../components/SizeConverter/SneakerSizeCalculator";
 
 import "./ProductDetails.scss";
 import CopyToClipboardButton from "../components/COPYCLIPBOARD/CopyToCLipboardButton";
@@ -13,35 +14,58 @@ import Breadcrum from "../components/Breadcrumbs/Breadcrum";
 
 const ProductDetails = () => {
   const params = useParams();
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [products, setProducts] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [cart, setCart] = useCart();
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+
 
   //initalp details
   useEffect(() => {
     if (params?.pid) getProduct();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.pid]);
 
-  //getProduct
+
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
         `/api/v1/product/get-product/${params.pid}`
       );
       setProduct(data?.product);
-    } catch (error) {}
+    } catch (error) {
+      //console.log("Error fetching product", error);
+    }
+  };
+
+  const addToCart = () => {
+    const productWithColor = {
+      ...product,
+      selectedColor: selectedColor,
+      selectedSize: selectedSize,
+    };
+
+    if (selectedColor === "" || selectedColor === undefined || selectedColor === null || selectedColor === " ") {
+      alert("Please select a color to proceed.");
+    } else if(selectedSize === "" || selectedSize === " ") {
+      alert("Please select a size to proceed.");
+    }
+    else {
+      setCart((prevCart) => {
+        const updatedCart = [...prevCart, productWithColor];
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        alert("Product added to cart");
+        return updatedCart;
+      });
+    }
   };
 
   return (
     <Layout>
-      {/* <div className="breadcrum">
-        HOME <img src={arrow_icon} alt="" /> {product.category}{" "}
-        <img src={arrow_icon} alt="" /> {product.name}
-      </div> */}
       <Breadcrum category={product.category} productName={product.name} />
-
-
       <div className="product-display">
         <div className="product-display-left">
           <div className="product-display-image">
@@ -72,19 +96,42 @@ const ProductDetails = () => {
           <div className="product-display-desc">
             <p>{product.description}</p>
           </div>
+          <div className="product-display-color">
+            <p>Color:</p>
+            {product.colors && product.colors.length !== 0 ? (
+              product.colors[0]
+                .split(",")
+                .map((color, index) => (
+                  <div
+                    key={index}
+                    className={`${color} ${
+                      selectedColor === color ? "selected" : ""
+                    }`}
+                    onClick={() => setSelectedColor(color)}
+                  ></div>
+                ))
+            ) : (
+              <div className="nocolor">No color available</div>
+            )}
+          </div>
+          <div className="product-display-size">
+            <p>Size:</p>
+            {product.sizes && product.sizes.map((size, index) => (
+              <div onClick={()=> {
+                setSelectedSize(size.size);
+              }} key={index} className={`size ${ size.quantity === 0 ? "out" : ""} ${size.quantity !== 0 &&selectedSize === size.size ? "selected" : ""}`}>
+                {size.size}
+              </div>
+            ))}
+          </div>
 
-          <button
-            className="btn"
-            onClick={() => {
-              setCart([...cart, product]);
-              localStorage.setItem("cart", JSON.stringify([...cart, product]));
-            }}
-          >
+          <button className="btn" onClick={addToCart}>
             ADD TO CART
           </button>
         </div>
         <CopyToClipboardButton />
       </div>
+      <SneakerSizeCalculator />
     </Layout>
   );
 };

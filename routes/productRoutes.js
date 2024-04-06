@@ -13,8 +13,9 @@ import {
   regularProductController,
   searchProductController,
   updateProductController,
+  updateProductSizeQuantityController,
 } from "../controllers/productController.js";
-// import { braintreePaymentController, braintreeTokenController, categoryProductController, countProductController, createProductController, deleteProductController, filterProductController, getProductController, getSingleProductController, listProductController, photoProductController, relatedProductController, searchProductController, updateProductController } from "../controllers/productController.js";
+
 import formidable from "express-formidable";
 
 const router = express.Router();
@@ -33,6 +34,8 @@ router.put(
   formidable(),
   updateProductController
 );
+
+
 router.get("/get-product", getProductController);
 router.get("/get-product/:pid", getSingleProductController);
 router.get("/photo-product/:pid", photoProductController);
@@ -44,8 +47,11 @@ router.get("/search/:keyword", searchProductController);
 router.get("/regular-products", regularProductController);
 router.get("/exclusive-products", exclusiveProductController);
 
-// router.get("/related-product/:pid/:cid",relatedProductController);
-// router.get("/category-product/:slug",categoryProductController);
+
+router.put(
+  "/update-product-sizeQuantity/:pid",
+  updateProductSizeQuantityController
+);
 
 router.get("/braintree/token", braintreeTokenController);
 router.post("/braintree/payment", requireSignIn, braintreePaymentController);

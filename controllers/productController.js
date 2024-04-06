@@ -15,7 +15,16 @@ var gateway = new braintree.BraintreeGateway({
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity } = req.fields;
+    let {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      sizes,
+      shipping,
+      colors,
+    } = req.fields;
     const { photo } = req.files;
     switch (true) {
       case !name:
@@ -33,8 +42,21 @@ export const createProductController = async (req, res) => {
           .status(500)
           .send({ error: "photo is Required and should be less then 5mb" });
     }
-
-    const products = new productModel({ ...req.fields });
+    try {
+      sizes = JSON.parse(sizes); // Parse sizes back into an array
+    } catch (error) {
+      return res.status(400).send({ error: "Invalid sizes format" });
+    }
+    const products = new productModel({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      shipping,
+      colors,
+      sizes,
+    });
     if (photo) {
       products.photo.data = fs.readFileSync(photo.path);
       products.photo.contentType = photo.type;
@@ -49,7 +71,7 @@ export const createProductController = async (req, res) => {
     res.status(500).send({
       success: false,
       error,
-      message: "Error in crearing product",
+      message: error.message,
     });
   }
 };
@@ -172,6 +194,46 @@ export const updateProductController = async (req, res) => {
   }
 };
 
+export const updateProductSizeQuantityController = async (req, res) => {
+  try {
+    const { selectedSize } = req.body;
+    const { pid } = req.params;
+    console.log(selectedSize);
+    console.log(pid);
+
+    const product = await productModel.findById(pid);
+    if (!product) {
+      return res.status(404).send({ error: "Product not found jj" });
+    }
+
+    const sizeIndex = product.sizes.findIndex(
+      (size) => size.size === selectedSize
+    );
+    if (sizeIndex === -1) {
+      return res.status(400).send({ error: "Size not found in product" });
+    }
+
+    product.sizes[sizeIndex].quantity -= 1;
+    if (product.sizes[sizeIndex].quantity < 0) {
+      return res.status(400).send({ error: "Product size is out of stock" });
+    }
+
+    await product.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Product size quantity updated successfully",
+      product,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error,
+      message: error.message,
+    });
+  }
+};
+
 export const filterProductController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
@@ -192,39 +254,6 @@ export const filterProductController = async (req, res) => {
   }
 };
 
-// export const countProductController=async(req,res)=>{
-//     try {
-//       const total = await productModel.find({}).estimatedDocumentCount()
-//       res.status(200).send({
-//         success:true,
-//         total
-//       })
-//     } catch (error) {
-//       res.status(500).send({
-//         success:false,
-//         message:"Error in count",
-//         error
-//       })
-//     }
-//   }
-
-//   export const listProductController=async(req,res)=>{
-//     try {
-//       const perPage = 6
-//       const page = req.params.page ? req.params.page :1
-//       const products = await productModel.find({}).select("-photo").skip((page-1)*perPage).limit(perPage).sort({createdAt:-1});
-//       res.status(200).send({
-//         success:true,
-//         products
-//       })
-//     } catch (error) {
-//       res.status(500).send({
-//         success:false,
-//         message:"Error in per page",
-//         error
-//       })
-//     }
-//   }
 
 export const searchProductController = async (req, res) => {
   try {
@@ -301,6 +330,8 @@ export const braintreePaymentController = async (req, res) => {
           const order = new orderModel({
             products: cart,
             payment: result,
+            selectedColor: cart[0].selectedColor,
+            selectedSize: cart[0].selectedSize,
             buyer: req.user._id,
           }).save();
           res.json({ ok: true });

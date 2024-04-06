@@ -80,12 +80,73 @@
                     padding: 18px 24px;
                     border: 1px solid #252525;
                     background: rgba(128, 128, 128, 0.1);
-
-                    // &:active{
-                    //     background-color: rgba(255, 68, 0, 0.903);
-                    //     color: white;
-                    // }
                 }
+            }
+        }
+
+        .product-display-color{
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            color: blue ;
+            font-size: 22px;
+            font-weight: 600;
+            .red{
+                background-color: red;
+                border: 2px solid black;
+            }
+            .blue{
+                background-color: blue;
+                border: 2px solid black;
+            }
+            .white{
+                background-color: white;
+                border: 2px solid black;
+            }
+            .black{
+                background-color: black;
+                border: 2px solid black;
+            }
+            .brown{
+                background-color: rgb(178, 69, 69);
+                border: 2px solid black;
+            }
+            .nocolor{
+                font-size: 14px;
+                color: #575252f0;
+            }
+            .selected{
+                border: 4px solid rgb(0, 255, 98);
+            }
+            div{
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+        }
+
+        .product-display-size {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            color: blue ;
+            font-size: 22px;
+            font-weight: 600;
+            align-items: center;
+            .size{
+                padding: 6px 12px;
+                border: 2px solid black;
+                cursor: pointer;
+            }
+            .selected{
+                border: 4px solid rgb(0, 255, 98);
+            }
+            .out {
+                background-color: #f0f0f0;
+                color: #575252f0;
+                cursor: not-allowed;
+                text-decoration-line: line-through;
             }
         }
 
@@ -109,3 +170,4 @@
         }
     }
 }
+

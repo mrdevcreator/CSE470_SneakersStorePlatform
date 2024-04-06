@@ -41,6 +41,8 @@ const UserOrders = () => {
                       <th scope="col">Buyer</th>
                       <th scope="col">Date</th>
                       <th scope="col">Payment</th>
+                      <th scope="col">Color</th>
+                      <th scope="col">Size</th>
                       <th scope="col">Quantity</th>
                     </tr>
                   </thead>
@@ -51,6 +53,8 @@ const UserOrders = () => {
                       <td>{order.buyer.name}</td>
                       <td>{moment(order.createdAt).fromNow()}</td>
                       <td>{order.payment.success ? "Success" : "Failed"}</td>
+                      <td>{order.selectedColor}</td>
+                      <td>{order.selectedSize}</td>
                       <td>{order.products.length}</td>
                     </tr>
                   </tbody>

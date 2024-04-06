@@ -13,6 +13,14 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "users",
     },
+    selectedColor: {
+      type: String,
+      required: true,
+    },
+    selectedSize: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       default: "Not processed",

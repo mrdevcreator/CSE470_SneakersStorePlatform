@@ -50,15 +50,35 @@ const CartPage = () => {
     getToken();
   }, [auth?.token]);
 
+  const updateProductSizeQuantity = async () => {
+    try {
+      cart?.map(async (item) => {
+        await axios.put(
+          `/api/v1/product/update-product-sizeQuantity/${item._id}`,
+          {
+            selectedSize: item.selectedSize,
+          }
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //handle payments
   const handlePayment = async () => {
+    console.log(cart);
     try {
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
+      // eslint-disable-next-line no-unused-vars
       const { data } = await axios.post("/api/v1/product/braintree/payment", {
         nonce,
         cart,
       });
+      updateProductSizeQuantity();
+      // Here make a call to the backend to update the product size quantity
+
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
@@ -67,6 +87,7 @@ const CartPage = () => {
       setLoading(false);
     }
   };
+  
   return (
     <Layout>
       <div className="cart">
@@ -101,9 +122,12 @@ const CartPage = () => {
                   <p>{p.description.substring(0, 30)}</p>
                   <p>Price : $ {p.price}</p>
 
-                  <MdOutlineRemoveShoppingCart 
+                  <p>Color : {p.selectedColor}</p>
+                  <p>Size : {p.selectedSize}</p>
+
+                  <MdOutlineRemoveShoppingCart
                     className="cart-rmv"
-                    size={'35'}
+                    size={"35"}
                     onClick={() => removeCartItem(p._id)}
                   >
                     Remove

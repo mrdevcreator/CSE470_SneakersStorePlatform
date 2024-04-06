@@ -57,6 +57,8 @@ const AdminOrders = () => {
                         <th scope="col">Buyer</th>
                         <th scope="col"> date</th>
                         <th scope="col">Payment</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Size</th>
                         <th scope="col">Quantity</th>
                       </tr>
                     </thead>
@@ -78,6 +80,8 @@ const AdminOrders = () => {
                         <td>{o?.buyer?.name}</td>
                         <td>{moment(o?.createdAt).fromNow()}</td>
                         <td>{o?.payment.success ? "Success" : "Failed"}</td>
+                        <td>{o?.selectedColor}</td>
+                        <td>{o?.selectedSize}</td>
                         <td>{o?.products?.length}</td>
                       </tr>
                     </tbody>
