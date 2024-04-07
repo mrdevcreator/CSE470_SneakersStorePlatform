@@ -7,12 +7,13 @@ import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
 import SearchInput from "../Form/SearchInput.js";
 import { Badge } from "antd";
-import { RiHeart3Fill } from "react-icons/ri";
 import { TbWorldHeart } from "react-icons/tb";
+import { useState } from "react";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
+  const [menu, setMenu] = useState(false);
 
   const handleLogout = () => {
     setAuth({
@@ -26,7 +27,7 @@ const Header = () => {
     <div className="navbar">
       <Link to="/">
         <div className="nav-logo">
-          <img src={logo} height="100px" alt="shop logo" />
+          <img src={logo} alt="shop logo" className="logo" />
           <p>SnekHead</p>
         </div>
       </Link>
@@ -70,11 +71,44 @@ const Header = () => {
             <img src={cart_icon} alt="cart icon" />
           </Link>
         </Badge>
-        
-        <Link to='/wish'>
-          <TbWorldHeart size={'35px'} style={{"color":"orangered", "cursor": "pointer" }} />
+
+        <Link to="/wish">
+          <TbWorldHeart
+            size={"35px"}
+            style={{ color: "orangered", cursor: "pointer" }}
+          />
         </Link>
-  
+      </div>
+      <div
+        className="nav-hamburger"
+        onClick={() => {
+          setMenu(!menu);
+        }}
+      >
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+
+      <div className={menu ? "nav-menu-mobile" : "nav-menu-mobile-hidden"}>
+        <ul>
+          <li className="link">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="link">
+            <Link to="/regular">Regular</Link>
+          </li>
+          <li className="link">
+            <Link to="/exclusive">Exclusive</Link>
+          </li>
+          <li className="link">
+            <Link
+              to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+            >
+              Dashboard
+            </Link>
+          </li>
+        </ul>
       </div>
     </div>
   );

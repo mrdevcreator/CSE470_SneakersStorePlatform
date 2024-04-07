@@ -1,4 +1,9 @@
 .clipboard{
     cursor: pointer;
+
+    @media screen and (max-width: 1200px) {
+        margin-left: 0px;   
+        width: 90%; 
+    }
     
 }

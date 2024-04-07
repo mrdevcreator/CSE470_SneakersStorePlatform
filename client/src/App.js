@@ -14,7 +14,6 @@ import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import ShowProducts from "./pages/Admin/ShowProducts";
-import Bidding from "./pages/Admin/Bidding";
 import Profile from "./pages/user/Profile";
 import UserOrders from "./pages/user/UserOrders";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
@@ -49,7 +48,6 @@ function App() {
           <Route path="admin/orders" element={<AdminOrders />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/product/:pid" element={<UpdateProduct />} />
-          <Route path="admin/create-bidding" element={<Bidding />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPasssword />} />

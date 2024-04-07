@@ -18,6 +18,7 @@ export const createProductController = async (req, res) => {
     let {
       name,
       description,
+      newPrice,
       price,
       category,
       quantity,
@@ -50,6 +51,7 @@ export const createProductController = async (req, res) => {
     const products = new productModel({
       name,
       description,
+      newPrice,
       price,
       category,
       quantity,

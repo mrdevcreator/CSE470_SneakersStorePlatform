@@ -35,30 +35,6 @@ const HomePage = () => {
     }
   };
 
-  // const getTotal = async () => {
-  //   try {
-  //     const { data } = await axios.get('/api/v1/product/count-product');
-  //     setTotal(data?.total);
-  //   } catch (error) {
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (page === 1) return;
-  //   loadMore();
-  // }, [page]);
-
-  // const loadMore = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await axios.get(`/api/v1/product/list-product/${page}`);
-  //     setLoading(false);
-  //     setProducts([...products, ...data?.products]);
-  //   } catch (error) {
-  //     setLoading(false);
-  //   }
-  // }
-
   const handleFilter = (id) => {
     setChecked(id);
   };

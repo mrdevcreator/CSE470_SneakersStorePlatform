@@ -3,9 +3,12 @@
 .product-display{
     display: flex;
     margin: 0px 168px;
-    // margin-bottom: 200px;
-    // gap: 15px;
     padding: 40px;
+    @media  screen and (max-width: 1200px){
+        margin: 0px 20px;
+        padding: 20px;
+        
+    }
 
     .product-display-left{
         display: flex;
@@ -28,6 +31,10 @@
                 width: 500px;
                 height: auto;
                 max-height: 670px;
+                @media screen and (max-width: 1200px){
+                    height: auto;
+                    width: 450px;
+                }
             }  
         }
     }
@@ -161,6 +168,11 @@
             border: 1px solid #252525;
             cursor: pointer;
             margin-top: 40px;
+            @media screen and (max-width: 1200px){
+                width: 200px;
+                height: 55px;
+                
+            }
 
             &:active{
                 background: red;
