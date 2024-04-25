@@ -54,6 +54,20 @@
             margin-top: 10px ;
             font-size: 20px;
         }
+        .product-display-desc {
+            border-bottom: brown 1px solid;
+            border-right: brown 1px solid;
+            padding-right: 18px;
+            color: black;
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 600px;
+            line-height: 20px;
+            text-align: justify;
+            @media screen and (max-width: 1200px){
+                min-width: 450px;
+            }
+        }
         .product-display-right-price{
             display: flex;
             margin: 40px 0px;

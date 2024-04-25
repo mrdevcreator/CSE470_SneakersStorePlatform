@@ -94,7 +94,7 @@ const ProductDetails = () => {
             <div className="old-price">${product.price}</div>
           </div>
           <div className="product-display-desc">
-            <p>{product.description}</p>
+            <p className="description">{product.description}</p>
           </div>
           <div className="product-display-color">
             <p>Color:</p>

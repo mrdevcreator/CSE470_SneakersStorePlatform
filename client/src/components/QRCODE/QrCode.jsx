@@ -5,7 +5,7 @@ import "./QrCode.scss";
 const QrCode = () => {
   return (
     <div className="qr-box">
-      <h1>Check our product Authentidy</h1>
+      <h1>Check our product authenticity</h1>
       <h2>scan this Qr code</h2>
       <hr />
       <div className="qr">
