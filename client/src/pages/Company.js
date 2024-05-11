@@ -10,9 +10,9 @@ const Company = () => {
     name: "SNEKHEAD",
     address: "123 Main Street, Cityville, ABC",
     industry: "Lifestyle",
-    revenue: "₹ 150",
-    employees: "100+ Devins",
-    founded: "2079",
+    revenue: "$ 15000000",
+    employees: "500+",
+    founded: "2024",
   };
 
   return (

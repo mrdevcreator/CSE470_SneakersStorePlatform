@@ -5,6 +5,8 @@
     color: black;
     font-family: Poppins;
     background-image: linear-gradient(to top, grey, white);
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
 .footer .footer-logo {

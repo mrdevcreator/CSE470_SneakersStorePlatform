@@ -127,7 +127,6 @@ const HomePage = () => {
 
                     </div>
                     
-
                     <TbJewishStarFilled className="wish-btn" size={'25px'}
                       onClick={() => {
                         setWish([...wish, p]);
